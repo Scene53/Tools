@@ -3,20 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <repositories>
-            <repository>
-                <id>maven2</id>
-                <name>maven2</name>
-                <url>https://repo.maven.apache.org/maven2/</url>
-            </repository>
-    </repositories>
-
     <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <agora-artifactory-local>${env.LOCAL_ARTIFACT_REPO}</agora-artifactory-local>
+        <agora-maven-repository>${env.PROD_ARTIFACT_REPO}</agora-maven-repository>
+    </properties>
 
     <groupId>io.agora</groupId>
     <artifactId>authentication</artifactId>
     <version>1.6.1</version>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -43,4 +47,51 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>${agora-artifactory-local}/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>${agora-artifactory-local}/groups/public</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>agora-internal-release</id>
+            <name>Scene53 Release Repository</name>
+            <url>${agora-maven-repository}/releases</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>${agora-artifactory-local}/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>snapshots</id>
+            <url>${agora-artifactory-local}/groups/public</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <!-- use the following if you're not using a snapshot version. -->
+        <repository>
+            <id>agora-internal-release</id>
+            <name>Scene53 Release Repository</name>
+            <url>${agora-maven-repository}/releases</url>
+        </repository>
+    </distributionManagement>
 </project>
